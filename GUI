@@ -1,0 +1,474 @@
+
+repeat wait() until game:IsLoaded()
+wait(1)
+local a,b = pcall(function()
+    repeat wait() until game.Players.LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+local plr = game.Players.LocalPlayer
+local main = plr.PlayerGui.Chat.Frame.ChatBarParentFrame
+local chatbar = main.Frame.BoxFrame.Frame.ChatBar
+chatbar.BackgroundTransparency = 1
+local mirror = chatbar:Clone()
+mirror.Name = "mirror"
+mirror.TextTransparency = 0
+mirror.Parent = chatbar.Parent
+mirror.TextEditable = false
+mirror.RichText = true
+mirror.Selectable = false
+mirror.Active = false
+mirror.ZIndex = 20
+local Box = main.Frame.BoxFrame
+local  adjust = true
+main.Size = UDim2.new(1, 0, 0, 124)
+Box.Size = UDim2.new(1, -14, 0, 25)
+
+
+local Topbar = nil
+for i,v in pairs(game.CoreGui:GetChildren()) do 
+    if v.Name == ("ThemeProvider") and v:FindFirstChild("TopBarFrame") then
+        Topbar = v 
+    end
+end
+
+local icon = Topbar.TopBarFrame.LeftFrame:FindFirstChild("Emoji") or Topbar:FindFirstChild("ChatIcon",true):Clone()
+icon.Parent = Topbar.TopBarFrame.LeftFrame
+icon.Background.Icon.Image = "http://www.roblox.com/asset/?id=5188680291"
+icon.Name = "Emoji"
+icon.Background.Icon.Size = UDim2.new(0, 25, 0, 25)
+icon.MouseEnter:Connect(function()
+      icon.Background.StateOverlay.ImageTransparency  = 0.9
+    end)
+icon.MouseLeave:Connect(function()
+      icon.Background.StateOverlay.ImageTransparency = 1
+    end)
+
+
+local keyname1  = ("emojiFavs.lua")
+if not isfile(keyname1) then
+  writefile(keyname1,"")
+end
+
+local keyname2  = ("Words.lua")
+local function Add(TXT)
+ local String = readfile(keyname2)
+   local data = string.split(String,",")
+   if not table.find(data,TXT) then
+     writefile(keyname2,readfile(keyname2)..","..TXT:lower())
+     end
+  end
+
+local function getlang()
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Frame_2 = Instance.new("Frame")
+local UIGridLayout = Instance.new("UIGridLayout")
+local TextLabel = Instance.new("TextLabel")
+local tones ={"English_UK","English_USA","DANISH","ITALIAN","DUTCH","FRENCH","GERMAN","NORWEGIAN","SPANISH","SWISS_GERMAN"}
+
+for i,v in pairs(tones) do
+local TextButton = Instance.new("TextButton")
+TextButton.Parent = Frame_2
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BackgroundTransparency = 0.900
+TextButton.Size = UDim2.new(0, 200, 0, 50)
+TextButton.Font = Enum.Font.Arial
+TextButton.Text = v
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
+TextButton.MouseButton1Down:Connect(function()
+  writefile(keyname2,loadstring(game:HttpGet("https://raw.githubusercontent.com/Itsmenewj/Languages/main/"..v, true))())
+ for i,v in pairs(game.Players:GetChildren()) do 
+    Add(v.Name)
+    Add(v.DisplayName)
+end
+  ScreenGui:Destroy()
+  
+    end)
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BackgroundTransparency = 0.500
+Frame.Position = UDim2.new(0.358738482, 0, 0.231498659, 0)
+Frame.Size = UDim2.new(0, 224, 0, 210)
+
+UICorner.Parent = Frame
+
+Frame_2.Parent = Frame
+Frame_2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame_2.Position = UDim2.new(0.0450000018, 0, 0.169, 0)
+Frame_2.Size = UDim2.new(0, 203, 0, 170)
+
+UIGridLayout.Parent = Frame_2
+UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout.CellPadding = UDim2.new(0, 1, 0, 2)
+UIGridLayout.CellSize = UDim2.new(1, -1, 0, 15)
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.Position = UDim2.new(0.0580357127, 0, 0.0346320309, 0)
+TextLabel.Size = UDim2.new(0, 200, 0, 24)
+TextLabel.Font = Enum.Font.Arial
+TextLabel.Text = "Download Language Pack"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+end
+
+end
+
+
+if not isfile(keyname2) then
+  getlang() 
+ 
+end
+
+
+
+
+local function getvals1()
+   local key1 = string.sub(readfile(keyname1), 2, #readfile(keyname1))
+  local data1 = string.split(key1,",")
+ return data1 or nil
+
+end
+
+
+local function makeval1(nd1)
+  writefile(keyname1,readfile(keyname1)..","..nd1)
+end
+
+
+
+
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local UIGridLayout = Instance.new("UIGridLayout")
+local ImageButton = Instance.new("ImageButton")
+
+local Favs = Instance.new("ScrollingFrame")
+local UIGridLayout1 = Instance.new("UIGridLayout")
+local UIGridLayout1 = Instance.new("UIGridLayout")
+local TextBox = Instance.new("TextBox")
+local UICorner_2 = Instance.new("UICorner")
+
+--Properties:
+
+
+Box.Changed:Connect(function(p)
+if p == "BackgroundTransparency"
+    then
+       local newnum = Box.BackgroundTransparency
+        ScrollingFrame.BackgroundTransparency,Favs.BackgroundTransparency = newnum,newnum
+         
+    if newnum >= 0.98 and adjust
+    then ScrollingFrame.Visible,Favs.Visible = false,false
+        else
+            ScrollingFrame.Visible,Favs.Visible = true,true
+            end
+    end
+    end)
+
+
+ScrollingFrame.Parent = main
+ScrollingFrame.Name = "Emoji"
+ScrollingFrame.Active = true
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ScrollingFrame.Position = UDim2.new(0, 7, 0, 65)
+ScrollingFrame.Size = UDim2.new(1, -14, 0, 50)
+ScrollingFrame.ScrollBarThickness = 0
+ScrollingFrame.ScrollingDirection = Enum.ScrollingDirection.X
+ScrollingFrame.Visible = false
+ScrollingFrame.MouseEnter:Connect(function()
+    adjust = false
+end)
+ScrollingFrame.MouseLeave:Connect(function()
+adjust = true
+end)
+
+UIGridLayout.Parent = ScrollingFrame
+UIGridLayout.FillDirection = Enum.FillDirection.Vertical
+UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout.CellPadding = UDim2.new(0, 3, 0, 2)
+UIGridLayout.CellSize = UDim2.new(0, 23, 0, 23)
+UIGridLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+      ScrollingFrame.CanvasSize = UDim2.new(0, UIGridLayout.AbsoluteContentSize.X, 0, 0)
+end)
+
+UIGridLayout1.Parent = ScrollingFrame
+UIGridLayout1.FillDirection = Enum.FillDirection.Vertical
+UIGridLayout1.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout1.CellPadding = UDim2.new(0, 3, 0, 2)
+UIGridLayout1.CellSize = UDim2.new(0, 23, 0, 23)
+UIGridLayout1:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+      Favs.CanvasSize = UDim2.new(0, UIGridLayout1.AbsoluteContentSize.X, 0, 0)
+ end)
+
+
+Favs.Name = "Emoji"
+Favs.Parent = main
+Favs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Favs.Position = UDim2.new(0, 7, 0, 38)
+Favs.Size = UDim2.new(1, -14, 0, 22)
+Favs.ScrollBarThickness = 0
+Favs.ScrollingDirection = Enum.ScrollingDirection.X
+Favs.Visible = false
+Favs.MouseEnter:Connect(function()
+    adjust = false
+end)
+Favs.MouseLeave:Connect(function()
+adjust = true
+end)
+
+UIGridLayout1.Parent = Favs
+UIGridLayout1.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout1.CellPadding = UDim2.new(0, 3, 0, 2)
+UIGridLayout1.CellSize = UDim2.new(0, 23, 0, 23)
+
+local hide = Instance.new("Frame")
+hide.Parent = icon
+hide.BackgroundTransparency = 1
+hide.Position = UDim2.new(1, -10, 0, 2)
+hide.Size = UDim2.new(3, 0, 1, 0)
+hide.ClipsDescendants = true
+hide.Visible = false
+
+TextBox.Parent = hide
+TextBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.Position = UDim2.new(0, 5, 0, 5)
+TextBox.Size = UDim2.new(1, -10, 1, -10)
+TextBox.BackgroundTransparency = .5
+TextBox.Font = Enum.Font.SourceSans
+TextBox.Text = "Enter Emoji"
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextSize = 14.000
+TextBox.Visible = true
+TextBox.TextScaled = true
+UICorner_2.CornerRadius = UDim.new(0, 2)
+UICorner_2.Parent = TextBox
+
+icon.Background.MouseButton1Down:Connect(function()
+    if TextBox.Position == UDim2.new(-1, 5, 0, 5) then
+    hide.Visible = true wait()
+    TextBox:TweenPosition(UDim2.new(0, 5, 0, 5),"InOut","Sine",.5)
+   
+    else 
+        TextBox:TweenPosition(UDim2.new(-1, 5, 0, 5),"InOut","Sine",.5)
+        wait(.6)
+        hide.Visible = false
+        end
+    end)
+
+
+local function button(emot)
+local TextButton = Instance.new("TextButton")
+TextButton.Name = emot
+TextButton.Parent = ScrollingFrame
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BackgroundTransparency = 1.000
+TextButton.Size = UDim2.new(0, 200, 0, 50)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = tostring(emot)
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextSize = 20.000
+TextButton.TextWrapped = true
+TextButton.MouseButton1Down:Connect(function()
+    chatbar.Text = chatbar.Text..emot
+     chatbar:CaptureFocus()
+      if not Favs:FindFirstChild(emot) then
+    local tk = Favs:GetChildren()
+    local newbutton = TextButton:Clone()
+     newbutton.Name = emot
+     newbutton.Parent = Favs
+    
+  local tl = Instance.new("TextLabel",newbutton)
+    tl.BackgroundTransparency = 1
+    tl.TextColor3 = Color3.fromRGB(0, 0, 0)
+    tl.Size = UDim2.new(.25, 0, .25, 0)
+    tl.TextSize = 6.000
+    tl.Position = UDim2.new(.75, 0, .75, -1)
+    local tab1 = Favs:GetChildren()
+    tl.Text =  "#"..table.find(tab1,newbutton) -1
+   
+    newbutton.Changed:Connect(function()
+        local tab1 = Favs:GetChildren()
+    tl.Text =  "#"..table.find(tab1,newbutton) -1 
+        end)
+     newbutton.MouseButton1Down:Connect(function()
+    chatbar.Text = chatbar.Text.." "..emot.." "
+    chatbar:CaptureFocus()
+     end)
+      if #Favs:GetChildren() > 16  then 
+        repeat wait()
+        Favs:FindFirstChildOfClass("TextButton"):Destroy() 
+        until #Favs:GetChildren() <= 16
+        end
+     local  newstring = " "
+     local num = 0
+     
+    for i,v in pairs(Favs:GetChildren()) do
+       if v:IsA("TextButton") then
+            if i ==  #Favs:GetChildren() then
+         newstring = newstring..v.Text
+         else
+        newstring = newstring..v.Text..","
+        end
+       end
+         writefile(keyname1,newstring)
+       end
+     end
+    end)
+end
+
+local keyname  = ("emoji.lua")
+if not isfile(keyname) then
+writefile(keyname,loadstring(game:HttpGet("https://raw.githubusercontent.com/Itsmenewj/Languages/main/Emoji", true))())end
+local function getvals()
+   local key = readfile(keyname)
+  local data = string.split(key,",")
+ return data or nil
+
+end
+
+
+
+local function makeval(nd1)
+  local String = readfile(keyname)
+   local data = string.split(String,",")
+   if not table.find(data,nd1) then
+     writefile(keyname,readfile(keyname)..","..nd1)
+     return true
+     else
+         return 
+         false
+  end
+end
+
+TextBox.FocusLost:connect(function(enterPressed)
+	if enterPressed then
+	   
+	    coroutine.wrap(function()
+	       TextBox:TweenPosition(UDim2.new(-1, 5, 0, 5),"InOut","Sine",.5)
+           wait(.6)
+               TextBox.Text = "Enter Emoji"
+              hide.Visible = false
+            
+	        end)()
+	    local txt = string.split(TextBox.Text," ")
+	     for i,v in pairs(txt) do
+	       if makeval(v) then
+	         button(v)
+           end
+	       end
+         
+	    end
+       
+end)
+
+for i,v in pairs(getvals1()) do
+  local TextButton1 = Instance.new("TextButton")
+  TextButton1.Name = v
+TextButton1.Parent = Favs
+TextButton1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton1.BackgroundTransparency = 1.000
+TextButton1.Size = UDim2.new(0, 200, 0, 50)
+TextButton1.Font = Enum.Font.SourceSans
+TextButton1.Text = tostring(v)
+TextButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton1.TextSize = 20.000
+TextButton1.TextWrapped = true
+
+local tl1 = Instance.new("TextLabel",TextButton1)
+    tl1.BackgroundTransparency = 1 
+    tl1.TextColor3 = Color3.fromRGB(0, 0, 0)
+  
+    tl1.TextTransparency = 0
+   local tab = Favs:GetChildren()
+    tl1.Text =  table.find(tab,TextButton1) -1
+    tl1.Size = UDim2.new(.25, 0, .25, 0)
+    tl1.TextSize = 6.000
+    tl1.Position = UDim2.new(.75, 0, .75, -1)
+    TextButton1.Changed:Connect(function()
+        local tab = Favs:GetChildren()
+    tl1.Text =  "#"..table.find(tab,TextButton1) -1
+        end)
+    
+ TextButton1.MouseButton1Down:Connect(function()
+         chatbar.Text = chatbar.Text.." "..v.." "
+         chatbar:CaptureFocus()
+         end)
+    TextButton1.MouseButton2Down:Connect(function()
+    TextButton1:Destroy()
+    end)
+end
+
+for i,v in pairs(getvals()) do
+    button(v)
+end
+local nanos = {"#1","#2","#3","#4","#5","#6","#7","#8","#9","#10","#11","#12","#13","#14","#15"}
+local newword
+chatbar.Changed:Connect(function(p)
+    local a1,a2 = pcall(function()
+     if p == ("ContentText") then
+    local txt = string.split(chatbar.Text," ")
+    
+     local String = readfile(keyname2)
+     local data = string.split(String,",")
+     if  #txt[#txt] > 2 then
+         if chatbar.Text:sub(-1,-1) == "#" and mirror.Text ~= "" then
+                 chatbar.Text = string.gsub(chatbar.Text,"#",newword).." "
+                 mirror.Text = ""
+                 chatbar.CursorPosition = 100
+                 else
+                  mirror.Text = ""
+         end
+              
+           for i,v in pairs(data) do
+            if v:lower():sub(1, #txt[#txt] ) == txt[#txt] then
+               newword = string.gsub(v,txt[#txt],"")
+              mirror.Text = [[<font transparency="1">]]..chatbar.Text..[[</font><font color="rgb(255,155,155)">]]..newword..[[</font>]] 
+            
+            end
+           end
+             else
+                  mirror.Text = ""
+            end
+    local check = #txt -1 
+   
+  
+      if check > 0 then
+      if #txt[check] > 4 then
+         
+      if txt[check]:sub(-1,-1) ~= "#" then  Add(tostring(txt[check]))   end 
+       end
+     if table.find(nanos,txt[check]) then
+       local jj =  tostring(txt[check])
+      
+       
+       local ff = tonumber(table.find(nanos,jj)) + 1
+       print(ff)
+        chatbar.Text = string.gsub(chatbar.Text,jj,Favs:GetChildren()[ff].Text)
+       chatbar.CursorPosition = 100
+      end
+     end
+     end
+     
+    end)
+ if a2 then print(a2) end
+end)
+
+
+for i,v in pairs(game.Players:GetChildren()) do 
+    Add(v.Name)
+    Add(v.DisplayName)
+end
+game.Players.PlayerAdded:Connect(function(v)
+    Add(v.Name)
+     Add(v.DisplayName)
+    end)
+end)
+if b then print(b) end
