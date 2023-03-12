@@ -65,6 +65,9 @@ local UIGridLayout = Instance.new("UIGridLayout")
 local TextLabel = Instance.new("TextLabel")
 local tones ={"English_UK","English_USA","DANISH","ITALIAN","DUTCH","FRENCH","GERMAN","NORWEGIAN","SPANISH","SWISS_GERMAN"}
 
+
+
+
 for i,v in pairs(tones) do
 local TextButton = Instance.new("TextButton")
 TextButton.Parent = Frame_2
@@ -321,7 +324,34 @@ TextButton.MouseButton1Down:Connect(function()
          writefile(keyname1,newstring)
        end
      end
-    end)
+end)
+TextButton.MouseButton2Down:Connect(function()
+   local a,b = pcall(function()
+    local F_1 = "emoji.lua"
+    local F_2 = tostring(readfile(F_1))
+local F_3 = string.gsub(F_2 ,","..TextButton.Text,"")
+writefile(F_1,F_3)
+
+for i,v in pairs(Favs:GetChildren()) do
+    if v:IsA("TextButton") and v.Text == TextButton.Text then
+    v:Destroy()
+    local newstring = ""
+for i,v in pairs(Favs:GetChildren()) do
+       if v:IsA("TextButton") then
+            if i ==  #Favs:GetChildren() then
+         newstring = newstring..v.Text
+         else
+        newstring = newstring..v.Text..","
+        end
+       end
+         writefile(keyname1,newstring)
+       end
+    end
+ end
+TextButton:Destroy()
+end)
+if b then print(b) end
+end)
 end
 
 local keyname  = ("emoji.lua")
