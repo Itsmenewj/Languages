@@ -1,8 +1,8 @@
-
+local function emoj()
 repeat wait() until game:IsLoaded()
-wait(1)
-local a,b = pcall(function()
-    repeat wait() until game.Players.LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+
+local a,b = pcall(function() 
+    repeat wait() until game.Players.LocalPlayer.PlayerGui.Chat.Frame.ImageButton.ImageLabel
 local plr = game.Players.LocalPlayer
 local main = plr.PlayerGui.Chat.Frame.ChatBarParentFrame
 local chatbar = main.Frame.BoxFrame.Frame.ChatBar
@@ -21,16 +21,17 @@ local  adjust = true
 main.Size = UDim2.new(1, 0, 0, 124)
 Box.Size = UDim2.new(1, -14, 0, 25)
 
-
 local Topbar = nil
-for i,v in pairs(game.CoreGui:GetChildren()) do 
-    if v.Name == ("ThemeProvider") and v:FindFirstChild("TopBarFrame") then
-        Topbar = v 
+for i,v in pairs(game.CoreGui:GetDescendants()) do 
+    if v.Name == ("ChatIcon") then
+        
+    
+        Topbar = v.Parent
     end
 end
 
-local icon = Topbar.TopBarFrame.LeftFrame:FindFirstChild("Emoji") or Topbar:FindFirstChild("ChatIcon",true):Clone()
-icon.Parent = Topbar.TopBarFrame.LeftFrame
+local icon = Topbar:FindFirstChild("Emoji") or Topbar:FindFirstChild("ChatIcon",true):Clone()
+icon.Parent = Topbar
 icon.Background.Icon.Image = "http://www.roblox.com/asset/?id=5188680291"
 icon.Name = "Emoji"
 icon.Background.Icon.Size = UDim2.new(0, 25, 0, 25)
@@ -500,5 +501,14 @@ game.Players.PlayerAdded:Connect(function(v)
     Add(v.Name)
      Add(v.DisplayName)
     end)
+
 end)
 if b then print(b) end
+end
+emoj()
+
+game.Players.LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.ChildAdded:Connect(function(c)
+    if c.Name ==("Frame") then
+   emoj()
+   end
+end)
