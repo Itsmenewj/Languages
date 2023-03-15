@@ -30,17 +30,9 @@ for i,v in pairs(game.CoreGui:GetDescendants()) do
     end
 end
 
-local icon = Topbar:FindFirstChild("Emoji") or Topbar:FindFirstChild("ChatIcon",true):Clone()
-icon.Parent = Topbar
-icon.Background.Icon.Image = "http://www.roblox.com/asset/?id=5188680291"
-icon.Name = "Emoji"
-icon.Background.Icon.Size = UDim2.new(0, 25, 0, 25)
-icon.MouseEnter:Connect(function()
-      icon.Background.StateOverlay.ImageTransparency  = 0.9
-    end)
-icon.MouseLeave:Connect(function()
-      icon.Background.StateOverlay.ImageTransparency = 1
-    end)
+
+
+
 
 
 local keyname1  = ("emojiFavs.lua")
@@ -66,9 +58,6 @@ local UIGridLayout = Instance.new("UIGridLayout")
 local TextLabel = Instance.new("TextLabel")
 local tones ={"English_UK","English_USA","DANISH","ITALIAN","DUTCH","FRENCH","GERMAN","NORWEGIAN","SPANISH","SWISS_GERMAN"}
 
-
-
-
 for i,v in pairs(tones) do
 local TextButton = Instance.new("TextButton")
 TextButton.Parent = Frame_2
@@ -82,14 +71,18 @@ TextButton.TextScaled = true
 TextButton.TextSize = 14.000
 TextButton.TextWrapped = true
 TextButton.MouseButton1Down:Connect(function()
+ coroutine.wrap(function()
   writefile(keyname2,loadstring(game:HttpGet("https://raw.githubusercontent.com/Itsmenewj/Languages/main/"..v, true))())
  for i,v in pairs(game.Players:GetChildren()) do 
     Add(v.Name)
     Add(v.DisplayName)
 end
+end)
   ScreenGui:Destroy()
   
     end)
+
+
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -123,17 +116,39 @@ TextLabel.TextScaled = true
 TextLabel.TextSize = 14.000
 TextLabel.TextWrapped = true
 end
-
 end
-
-
 if not isfile(keyname2) then
   getlang() 
  
-end
+ end
 
+local icon1 = Topbar:FindFirstChild("Language") or Topbar:FindFirstChild("ChatIcon",true):Clone()
+icon1.Parent = Topbar
+icon1.Background.Icon.Image = "http://www.roblox.com/asset/?id=5188680291"
+icon1.Name = "Language"
+icon1.Background.Icon.Size = UDim2.new(0, 25, 0, 25)
+icon1.Background.MouseButton1Down:Connect(function()
+      getlang() 
+end)
 
+icon1.MouseEnter:Connect(function()
+      icon1.Background.StateOverlay.ImageTransparency  = 0.9
+    end)
+icon1.MouseLeave:Connect(function()
+      icon1.Background.StateOverlay.ImageTransparency = 1
+    end)
 
+local icon = Topbar:FindFirstChild("Emoji") or Topbar:FindFirstChild("ChatIcon",true):Clone()
+icon.Parent = Topbar
+icon.Background.Icon.Image = "http://www.roblox.com/asset/?id=735858141"
+icon.Name = "Emoji"
+icon.Background.Icon.Size = UDim2.new(0, 25, 0, 25)
+icon.MouseEnter:Connect(function()
+      icon.Background.StateOverlay.ImageTransparency  = 0.9
+    end)
+icon.MouseLeave:Connect(function()
+      icon.Background.StateOverlay.ImageTransparency = 1
+    end)
 
 local function getvals1()
    local key1 = string.sub(readfile(keyname1), 2, #readfile(keyname1))
