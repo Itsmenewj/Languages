@@ -72,6 +72,7 @@ TextButton.TextSize = 14.000
 TextButton.TextWrapped = true
 TextButton.MouseButton1Down:Connect(function()
  coroutine.wrap(function()
+     local C_,A_ = pcall(function()
   writefile(keyname2,loadstring(game:HttpGet("https://raw.githubusercontent.com/Itsmenewj/Languages/main/"..v, true))())
  for i,o in pairs(game.Players:GetChildren()) do 
     Add(o.Name)
@@ -82,6 +83,9 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 	Text = tostring(TextButton.Text);
 })
 end)
+if b then print(b) end
+end)()
+
   ScreenGui.Parent = nil
   
     end)
