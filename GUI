@@ -73,12 +73,16 @@ TextButton.TextWrapped = true
 TextButton.MouseButton1Down:Connect(function()
  coroutine.wrap(function()
   writefile(keyname2,loadstring(game:HttpGet("https://raw.githubusercontent.com/Itsmenewj/Languages/main/"..v, true))())
- for i,v in pairs(game.Players:GetChildren()) do 
-    Add(v.Name)
-    Add(v.DisplayName)
+ for i,o in pairs(game.Players:GetChildren()) do 
+    Add(o.Name)
+    Add(o.DisplayName)
 end
+game:GetService("StarterGui"):SetCore("SendNotification", {
+	Title = "New Language Added";
+	Text = tostring(TextButton.Text);
+})
 end)
-  ScreenGui:Destroy()
+  ScreenGui.Parent = nil
   
     end)
 
