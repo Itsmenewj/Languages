@@ -3,8 +3,10 @@ repeat wait() until game:IsLoaded()
 
 local a,b = pcall(function() 
     repeat wait() until game.Players.LocalPlayer.PlayerGui.Chat.Frame.ImageButton.ImageLabel
-local My_Frames = {}
+
 local plr = game.Players.LocalPlayer
+local My_Frames = {
+}
 local main = plr.PlayerGui.Chat.Frame.ChatBarParentFrame
 local chatbar = main.Frame.BoxFrame.Frame.ChatBar
 chatbar.BackgroundTransparency = 1
@@ -54,6 +56,7 @@ local function Add(TXT)
 
 
 local icon1 = Topbar:FindFirstChild("Language") or Topbar:FindFirstChild("ChatIcon",true):Clone()
+if icon1:FindFirstChild("Badge",true) then icon1:FindFirstChild("Badge",true):Destroy() end
 icon1.Parent = Topbar
 icon1.Background.Icon.Image = "http://www.roblox.com/asset/?id=5188680291"
 icon1.Name = "Language"
@@ -213,6 +216,7 @@ icon1.MouseLeave:Connect(function()
     end)
 
 local icon = Topbar:FindFirstChild("Emoji") or Topbar:FindFirstChild("ChatIcon",true):Clone()
+if icon:FindFirstChild("Badge",true) then icon:FindFirstChild("Badge",true):Destroy() end
 icon.Parent = Topbar
 icon.Background.Icon.Image = "http://www.roblox.com/asset/?id=735858141"
 icon.Name = "Emoji"
@@ -606,6 +610,7 @@ game.Players.PlayerAdded:Connect(function(v)
 
 
 local icon3 = Topbar.Parent.RightFrame:FindFirstChild("Settings") or Topbar:FindFirstChild("ChatIcon",true):Clone()
+if icon3:FindFirstChild("Badge",true) then icon3:FindFirstChild("Badge",true):Destroy() end
 icon3.Parent = Topbar.Parent.RightFrame
 icon3.Background.Icon.Image = "http://www.roblox.com/asset/?id=8382597378"
 icon3.Name = "Settings"
@@ -714,13 +719,57 @@ TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.Position = UDim2.new(0, 5, 0, 10)
 TextLabel.Size = UDim2.new(1, -10, 0, 5)
-TextLabel.Text = name..":  "..plr.Character.Humanoid[name]
+
 
 bar.Name = "Bar"
 bar.Parent = Frame
 bar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+if name == "FlySpeed" then TextLabel.Text = "FlySpeed: 20"
+
+local Toggle = Instance.new("ImageButton")  
+local UICorner2 = Instance.new("UICorner")
+Toggle.AnchorPoint = Vector2.new(0,0.5)
+Toggle.Name = "Toggle"
+Toggle.Parent = Frame
+Toggle.BackgroundTransparency = 0
+Toggle.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+Toggle.Position = UDim2.new(0, 5, 0.5, 5)
+Toggle.Size = UDim2.new(0, 30, 0, 13)
+Toggle.ZIndex = -3 
+
+local Toggle1 = Instance.new("ImageLabel")
+Toggle1.Name = "Knob"
+Toggle1.Parent = Toggle
+Toggle1.AnchorPoint = Vector2.new(0,.5)
+Toggle1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Toggle1.BackgroundTransparency = 1.000
+Toggle1.BorderSizePixel = 0
+Toggle1.Position = UDim2.new(0, 0, .5, 0)
+Toggle1.Size = UDim2.new(0, 15, 0, 15)
+Toggle1.Image = "rbxassetid://319860955"
+
+Toggle.MouseButton1Down:Connect(function()
+    local TweenService = game.TweenService 
+    if Toggle1.Position == UDim2.new(0, 0, .5, 0) then
+       Toggle1:TweenPosition(UDim2.new(1, -15, .5, 0),"InOut","Sine",.2) 
+        local Tween = TweenService:Create(Toggle,TweenInfo.new(.3),{BackgroundColor3 = Color3.fromRGB(0, 255, 0)}):Play()
+       else
+        Toggle1:TweenPosition(UDim2.new(0, 0, .5, 0),"InOut","Sine",.2)
+         local Tween = TweenService:Create(Toggle,TweenInfo.new(.3),{BackgroundColor3 = Color3.fromRGB(55, 55, 55)}):Play()
+        end
+        
+    end)
+
+UICorner2.Parent = Toggle
+
+    bar.Size = UDim2.new(1, -60, 0, 5)
+    bar.Position = UDim2.new(0, 50, 1, -20)
+    else
+TextLabel.Text = name..":  "..plr.Character.Humanoid[name] 
 bar.Position = UDim2.new(0, 10, 1, -20)
 bar.Size = UDim2.new(1, -20, 0, 5)
+end
+
 
 UICorner1.Parent = bar
 UICorner1.CornerRadius = UDim.new(0, 1)
@@ -728,7 +777,7 @@ UICorner1.CornerRadius = UDim.new(0, 1)
 knob.Name = "Knob"
 knob.Parent = bar
 knob.AnchorPoint = Vector2.new(0,.5)
-knobBackgroundColor3 = Color3.fromRGB(255, 255, 255)
+knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 knob.BackgroundTransparency = 1.000
 knob.BorderSizePixel = 0
 knob.Position = UDim2.new(0, 0, .5, 0)
@@ -751,11 +800,14 @@ knob.Image = "rbxassetid://319860955"
 	
 		knob.Position = UDim2.new((mouseDelta / absSize) - .05, knob.Position.X.Offset, knob.Position.Y.Scale, knob.Position.Y.Offset);
 		    TextLabel.Text = name..":  "..math.floor(value)
-		    plr.Character.Humanoid[name] = math.floor(value) 
-		    if name == "JumpPower" then jp = tonumber(math.floor(value)) else
-		        ws = tonumber(math.floor(value)) end
+		   if name ~= "FlySpeed" then plr.Character.Humanoid[name] = math.floor(value) 
+		    if name == "JumpPower" then jp = tonumber(math.floor(value)) 
+		        else
+		        ws = tonumber(math.floor(value))
+		        end
 	
-	end
+		   end
+           end
 	
 	
 	local keepUpdating = false;
@@ -787,7 +839,7 @@ end
 local plr = game.Players.LocalPlayer
 local hum = plr.Character.Humanoid
 
-
+local pText = Instance.new("TextLabel")
 
 local forbids = {"WalkSpeed"}
 local player = game.Players.LocalPlayer
@@ -798,14 +850,15 @@ if  table.find(forbids,string) then
     if getnamecallmethod() == ("GetService") then
 return old(self,...)
 else
-    return 
+    return old(self,loadstring("game.Players.LocalPlayer.Character.Humanoid.NameDisplayDistance")())
     end
 else
     return old(self,...)
   end
 end)
-slider("JumpPower",300)
-slider("WalkSpeed",300)
+slider("JumpPower",1000)
+slider("WalkSpeed",1000)
+slider("FlySpeed",1000)
 player.CharacterAdded:Connect(function(newchar)
  
     hum = newchar:WaitForChild("Humanoid")
