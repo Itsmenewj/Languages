@@ -3,6 +3,7 @@ repeat wait() until game:IsLoaded()
 
 local a,b = pcall(function() 
     repeat wait() until game.Players.LocalPlayer.PlayerGui.Chat.Frame.ImageButton.ImageLabel
+local My_Frames = {}
 local plr = game.Players.LocalPlayer
 local main = plr.PlayerGui.Chat.Frame.ChatBarParentFrame
 local chatbar = main.Frame.BoxFrame.Frame.ChatBar
@@ -49,66 +50,47 @@ local function Add(TXT)
      end
   end
 
-local function getlang()
-local ScreenGui = Instance.new("ScreenGui")
+
+
+
+local icon1 = Topbar:FindFirstChild("Language") or Topbar:FindFirstChild("ChatIcon",true):Clone()
+icon1.Parent = Topbar
+icon1.Background.Icon.Image = "http://www.roblox.com/asset/?id=5188680291"
+icon1.Name = "Language"
+icon1.Background.Icon.Size = UDim2.new(0, 25, 0, 25)
+
+local hide1 = Instance.new("Frame")
+hide1.Parent = icon1
+hide1.BackgroundTransparency = 1
+hide1.Position = UDim2.new(0, -4, 1, -2)
+hide1.Size = UDim2.new(7, 0, 6, 0)
+hide1.ClipsDescendants = true
+hide1.Visible = false
+
 local Frame = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
-local Frame_2 = Instance.new("Frame")
+local Frame_2a = Instance.new("Frame")
 local UIGridLayout = Instance.new("UIGridLayout")
 local TextLabel = Instance.new("TextLabel")
-local tones ={"English_UK","English_USA","DANISH","ITALIAN","DUTCH","FRENCH","GERMAN","NORWEGIAN","SPANISH","SWISS_GERMAN"}
-
-for i,v in pairs(tones) do
-local TextButton = Instance.new("TextButton")
-TextButton.Parent = Frame_2
-TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextButton.BackgroundTransparency = 0.900
-TextButton.Size = UDim2.new(0, 200, 0, 50)
-TextButton.Font = Enum.Font.Arial
-TextButton.Text = v
-TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextButton.TextScaled = true
-TextButton.TextSize = 14.000
-TextButton.TextWrapped = true
-TextButton.MouseButton1Down:Connect(function()
- coroutine.wrap(function()
-     local C_,A_ = pcall(function()
-  writefile(keyname2,loadstring(game:HttpGet("https://raw.githubusercontent.com/Itsmenewj/Languages/main/"..v, true))())
- for i,o in pairs(game.Players:GetChildren()) do 
-    Add(o.Name)
-    Add(o.DisplayName)
-end
-game:GetService("StarterGui"):SetCore("SendNotification", {
-	Title = "New Language Added";
-	Text = tostring(TextButton.Text);
-})
-end)
-if b then print(b) end
-end)()
-
-  ScreenGui.Parent = nil
-  
-    end)
 
 
+local tones = {"English_UK","English_USA","DANISH","ITALIAN","DUTCH","FRENCH","GERMAN","NORWEGIAN","SPANISH","SWISS_GERMAN"}
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-Frame.Parent = ScreenGui
+Frame.Parent = hide1
 Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BackgroundTransparency = 0.500
-Frame.Position = UDim2.new(0.358738482, 0, 0.231498659, 0)
+Frame.Position = UDim2.new(0, 5, -1, 5)
 Frame.Size = UDim2.new(0, 224, 0, 210)
-
+table.insert(My_Frames,Frame)
 UICorner.Parent = Frame
 
-Frame_2.Parent = Frame
-Frame_2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-Frame_2.Position = UDim2.new(0.0450000018, 0, 0.169, 0)
-Frame_2.Size = UDim2.new(0, 203, 0, 170)
+Frame_2a.Parent = Frame
+Frame_2a.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame_2a.Position = UDim2.new(0, 2, 0,35)
+Frame_2a.Size = UDim2.new(1, -4, 0, 170)
+Frame_2a.BackgroundTransparency = 0.3
 
-UIGridLayout.Parent = Frame_2
+UIGridLayout.Parent = Frame_2a
 UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIGridLayout.CellPadding = UDim2.new(0, 1, 0, 2)
 UIGridLayout.CellSize = UDim2.new(1, -1, 0, 15)
@@ -123,21 +105,105 @@ TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextScaled = true
 TextLabel.TextSize = 14.000
 TextLabel.TextWrapped = true
+
+
+for i,v in pairs(tones) do
+local TextButton = Instance.new("TextButton")
+TextButton.Parent = Frame_2a
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BackgroundTransparency = 0.900
+TextButton.Size = UDim2.new(0, 200, 0, 50)
+TextButton.Font = Enum.Font.Arial
+TextButton.Text = v
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
+
+
+TextButton.MouseButton1Down:Connect(function()
+    local old = TextButton.Text
+ coroutine.wrap(function()
+     local C_,A_ = pcall(function()
+         local w_0 = loadstring(game:HttpGet("https://raw.githubusercontent.com/Itsmenewj/Languages/main/"..v, true))()
+         local w_1 = string.split(w_0,",")
+         local w_3 = #w_0/10000
+         print(w_3)
+         local w_4 = 0
+         
+         local Frame_1c = Instance.new("Frame")
+         Frame_1c.Parent = TextButton
+         Frame_1c.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+         Frame_1c.BorderSizePixel = 0
+         Frame_1c.BackgroundTransparency = 0.6
+         Frame_1c.Size = UDim2.new(0, 0, 1, 0)
+          for i = 1,w_3 do
+          wait(0)   
+         TextButton.Text = i*1000 .." Words Added"
+         local formula = i/w_3
+        -- Frame_1c.Size = UDim2.new(formula, 0, 1, 0)
+        Frame_1c:TweenSize(UDim2.new(formula, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Linear,0)
+         if i == 34 or i == 88 or i == 67 then
+	   	wait()
+         end
 end
+TextButton.Text = #w_1 .." Words Added"
+wait(1)
+        Frame:TweenPosition(UDim2.new(0, 5, -1, 5),"InOut","Sine",.5)
+        wait(.6)
+        hide1.Visible = false
+        TextButton.Text = old
+        Frame_1c:Destroy()
+         writefile(keyname2,w_0)
+ for i,o in pairs(game.Players:GetChildren()) do 
+    Add(o.Name)
+    Add(o.DisplayName)
 end
+game:GetService("StarterGui"):SetCore("SendNotification", {
+	Title = "New Language Added";
+	Text = tostring(TextButton.Text);
+})
+end)
+if b then print(A) end
+end)()
+
+   
+  
+    end)
+end
+
+
+
+
+
 if not isfile(keyname2) then
-  getlang() 
- 
+ hide1.Visible = true wait()
+ Frame:TweenPosition(UDim2.new(0, 5, 0, 5),"InOut","Sine",.5)
  end
 
-local icon1 = Topbar:FindFirstChild("Language") or Topbar:FindFirstChild("ChatIcon",true):Clone()
-icon1.Parent = Topbar
-icon1.Background.Icon.Image = "http://www.roblox.com/asset/?id=5188680291"
-icon1.Name = "Language"
-icon1.Background.Icon.Size = UDim2.new(0, 25, 0, 25)
 icon1.Background.MouseButton1Down:Connect(function()
-      getlang() 
-end)
+    for i,v in pairs(My_Frames) do
+            if v ~= Frame then
+               if v.Parent.Visible then
+                   coroutine.wrap(function()
+                       v:TweenPosition(UDim2.new(0, 5, -1, 5),"InOut","Sine",.5)
+                       wait(.4)
+                       v.Parent.Visible = false
+                   end)()
+               end
+            end
+    end
+       
+    if Frame.Position == UDim2.new(0, 5, -1, 5) then
+    hide1.Visible = true wait()
+    Frame:TweenPosition(UDim2.new(0, 5, 0, 5),"InOut","Sine",.5)
+   
+    else 
+        Frame:TweenPosition(UDim2.new(0, 5, -1, 5),"InOut","Sine",.5)
+        wait(.6)
+        hide1.Visible = false
+        end
+    end)
 
 icon1.MouseEnter:Connect(function()
       icon1.Background.StateOverlay.ImageTransparency  = 0.9
@@ -259,14 +325,14 @@ UIGridLayout1.CellSize = UDim2.new(0, 23, 0, 23)
 local hide = Instance.new("Frame")
 hide.Parent = icon
 hide.BackgroundTransparency = 1
-hide.Position = UDim2.new(1, -10, 0, 2)
+hide.Position = UDim2.new(0, -4, 1, -2)
 hide.Size = UDim2.new(3, 0, 1, 0)
 hide.ClipsDescendants = true
 hide.Visible = false
 
 TextBox.Parent = hide
 TextBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-TextBox.Position = UDim2.new(0, 5, 0, 5)
+TextBox.Position = UDim2.new(0, 5, -1, 5)
 TextBox.Size = UDim2.new(1, -10, 1, -10)
 TextBox.BackgroundTransparency = .5
 TextBox.Font = Enum.Font.SourceSans
@@ -275,16 +341,29 @@ TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextBox.TextSize = 14.000
 TextBox.Visible = true
 TextBox.TextScaled = true
+table.insert(My_Frames,TextBox)
 UICorner_2.CornerRadius = UDim.new(0, 2)
 UICorner_2.Parent = TextBox
 
 icon.Background.MouseButton1Down:Connect(function()
-    if TextBox.Position == UDim2.new(-1, 5, 0, 5) then
+    if TextBox.Position == UDim2.new(0, 5, -1, 5) then
+        for i,v in pairs(My_Frames) do
+            if v ~= TextBox then
+               if v.Parent.Visible then
+                   coroutine.wrap(function()
+                       v:TweenPosition(UDim2.new(0, 5, -1, 5),"InOut","Sine",.5)
+                       wait(.4)
+                       v.Parent.Visible = false
+                   end)()
+               end
+            end
+           end
+            
     hide.Visible = true wait()
     TextBox:TweenPosition(UDim2.new(0, 5, 0, 5),"InOut","Sine",.5)
    
     else 
-        TextBox:TweenPosition(UDim2.new(-1, 5, 0, 5),"InOut","Sine",.5)
+        TextBox:TweenPosition(UDim2.new(0, 5, -1, 5),"InOut","Sine",.5)
         wait(.6)
         hide.Visible = false
         end
@@ -525,6 +604,216 @@ game.Players.PlayerAdded:Connect(function(v)
      Add(v.DisplayName)
     end)
 
+
+local icon3 = Topbar.Parent.RightFrame:FindFirstChild("Settings") or Topbar:FindFirstChild("ChatIcon",true):Clone()
+icon3.Parent = Topbar.Parent.RightFrame
+icon3.Background.Icon.Image = "http://www.roblox.com/asset/?id=8382597378"
+icon3.Name = "Settings"
+icon3.Background.Icon.Size = UDim2.new(0, 25, 0, 25)
+
+local hide1_v = Instance.new("Frame")
+local Frame_v = Instance.new("Frame")
+local TextLabel_v = Instance.new("TextLabel")
+local Frame_v2a = Instance.new("Frame")
+local UIListLayout_v = Instance.new("UIListLayout")
+
+
+hide1_v.Parent = icon3
+hide1_v.BackgroundTransparency = 1
+hide1_v.Position = UDim2.new(-7, 35, 1, -2)
+hide1_v.Size = UDim2.new(7, 0, 6, 0)
+hide1_v.ClipsDescendants = true
+hide1_v.Visible = false
+
+Frame_v.Parent = hide1_v
+Frame_v.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame_v.BackgroundTransparency = 0.500
+Frame_v.Position = UDim2.new(0, 5, -1, 5)
+Frame_v.Size = UDim2.new(1, -10, 1, -10)
+table.insert(My_Frames,Frame_v)
+UICorner.Parent = Frame_v
+
+TextLabel_v.Parent = Frame_v
+TextLabel_v.BackgroundTransparency = 1
+TextLabel_v.Position = UDim2.new(0, 0, 0, 0)
+TextLabel_v.Size = UDim2.new(1, 0, 0, 33)
+TextLabel_v.Font = Enum.Font.Arial
+TextLabel_v.Text = "Settings"
+TextLabel_v.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_v.TextScaled = true
+TextLabel_v.TextSize = 14.000
+TextLabel_v.TextWrapped = true
+
+
+Frame_v2a.Parent = Frame_v
+Frame_v2a.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame_v2a.Position = UDim2.new(0, 4, 0,35)
+Frame_v2a.Size = UDim2.new(1, -8, 1, -39)
+Frame_v2a.BackgroundTransparency = 0.3
+
+UIListLayout_v.Parent = Frame_v2a
+UIListLayout_v.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_v.Padding = UDim.new(0, 3)
+
+icon3.Background.MouseButton1Down:Connect(function()
+    if Frame_v.Position == UDim2.new(0, 5, -1, 5) then
+        for i,v in pairs(My_Frames) do
+            if v ~= Frame_v then
+               if v.Parent.Visible then
+                   coroutine.wrap(function()
+                       v:TweenPosition(UDim2.new(0, 5, -1, 5),"InOut","Sine",.5)
+                       wait(.4)
+                       v.Parent.Visible = false
+                   end)()
+               end
+            end
+           end
+            
+    Frame_v.Parent.Visible = true wait()
+    Frame_v:TweenPosition(UDim2.new(0, 5, 0, 5),"InOut","Sine",.5)
+   
+    else 
+        Frame_v:TweenPosition(UDim2.new(0, 5, -1, 5),"InOut","Sine",.5)
+        wait(.6)
+        Frame_v.Parent.Visible = false
+        end
+    end)
+icon3.MouseEnter:Connect(function()
+      icon3.Background.StateOverlay.ImageTransparency  = 0.9
+    end)
+icon3.MouseLeave:Connect(function()
+      icon3.Background.StateOverlay.ImageTransparency = 1
+    end)
+
+local jp = 50
+local ws = 25 
+
+local function slider(name,max)
+local Frame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local TextLabel = Instance.new("TextLabel")
+local Slider = Instance.new("Frame")
+local bar = Instance.new("Frame")
+local UICorner1 = Instance.new("UICorner")
+local knob = Instance.new("ImageButton")
+
+
+
+Frame.Parent = Frame_v2a
+Frame.BackgroundTransparency = 0.4
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Size = UDim2.new(1, 0, 0, 50)
+
+UICorner.Parent = Frame
+
+TextLabel.Name = "Bar"
+TextLabel.Parent = Frame
+TextLabel.BackgroundTransparency = 1
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.Position = UDim2.new(0, 5, 0, 10)
+TextLabel.Size = UDim2.new(1, -10, 0, 5)
+TextLabel.Text = name..":  "..plr.Character.Humanoid[name]
+
+bar.Name = "Bar"
+bar.Parent = Frame
+bar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+bar.Position = UDim2.new(0, 10, 1, -20)
+bar.Size = UDim2.new(1, -20, 0, 5)
+
+UICorner1.Parent = bar
+UICorner1.CornerRadius = UDim.new(0, 1)
+
+knob.Name = "Knob"
+knob.Parent = bar
+knob.AnchorPoint = Vector2.new(0,.5)
+knobBackgroundColor3 = Color3.fromRGB(255, 255, 255)
+knob.BackgroundTransparency = 1.000
+knob.BorderSizePixel = 0
+knob.Position = UDim2.new(0, 0, .5, 0)
+knob.Size = UDim2.new(0, 20, 0, 20)
+knob.Image = "rbxassetid://319860955"
+
+
+
+	
+	local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+	local min = 0
+
+
+	
+	local function Update()
+		local absPosition = bar.AbsolutePosition.X;
+		local absSize = bar.AbsoluteSize.X ;
+		local mouseDelta = math.min(math.max(0, mouse.X - absPosition), absSize );
+		local value = min + ((mouseDelta / absSize) * (max - min));
+	
+		knob.Position = UDim2.new((mouseDelta / absSize) - .05, knob.Position.X.Offset, knob.Position.Y.Scale, knob.Position.Y.Offset);
+		    TextLabel.Text = name..":  "..math.floor(value)
+		    plr.Character.Humanoid[name] = math.floor(value) 
+		    if name == "JumpPower" then jp = tonumber(math.floor(value)) else
+		        ws = tonumber(math.floor(value)) end
+	
+	end
+	
+	
+	local keepUpdating = false;
+	local function Updater()
+	   
+		while (true) do
+			if (keepUpdating) then
+				Update()
+			end
+			wait(.05)
+		end
+	end
+	local taskCoro = coroutine.create(Updater)
+	coroutine.resume(taskCoro);
+	
+	
+	knob.MouseButton1Down:Connect(function()
+		keepUpdating = true;
+	end)
+	local UserInputService = game:GetService("UserInputService")
+	UserInputService.InputEnded:Connect(function(inputObject)
+		if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+			keepUpdating = false;
+		end
+	end)
+
+end
+
+local plr = game.Players.LocalPlayer
+local hum = plr.Character.Humanoid
+
+
+
+local forbids = {"WalkSpeed"}
+local player = game.Players.LocalPlayer
+local old
+old = hookmetamethod(game.Players.LocalPlayer.Character, "__index", function(self,...)
+    local string = tostring(...)
+if  table.find(forbids,string) then
+    if getnamecallmethod() == ("GetService") then
+return old(self,...)
+else
+    return 
+    end
+else
+    return old(self,...)
+  end
+end)
+slider("JumpPower",300)
+slider("WalkSpeed",300)
+player.CharacterAdded:Connect(function(newchar)
+ 
+    hum = newchar:WaitForChild("Humanoid")
+    wait()
+    hum.WalkSpeed = ws
+    hum.JumpPower = jp
+    end)
+
 end)
 if b then print(b) end
 end
@@ -535,3 +824,7 @@ game.Players.LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.ChildAdded:Conn
    emoj()
    end
 end)
+
+
+
+
