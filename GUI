@@ -692,6 +692,75 @@ icon3.MouseLeave:Connect(function()
 
 local jp = 50
 local ws = 25 
+ local Mouse = plr:GetMouse()
+    local flying = false
+	local CONTROL = {F = 0, B = 0, L = 0, R = 0}
+	local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+	local SPEED = 1
+	local speedfly = 1
+
+	local function fly()
+		flying = true
+		local BG = plr.Character.HumanoidRootPart:FindFirstChildOfClass("BodyGyro",true) or Instance.new('BodyGyro', plr.Character.HumanoidRootPart)
+		local BV = plr.Character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity",true) or Instance.new('BodyVelocity', plr.Character.HumanoidRootPart)
+		BG.P = 9e4
+		BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+		BG.cframe = plr.Character.HumanoidRootPart.CFrame
+		BV.velocity = Vector3.new(0, 0.1, 0)
+		BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+		spawn(function()
+		
+				repeat wait()
+					plr.Character.Humanoid.PlatformStand = true
+					if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
+						SPEED = 50
+					elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
+						SPEED = 0
+					end
+					if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
+						BV.velocity = ((workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) - workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+						lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
+					elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
+						BV.velocity = ((workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) - workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+					else
+						BV.velocity = Vector3.new(0, 0.1, 0)
+					end
+					BG.cframe = workspace.CurrentCamera.CoordinateFrame
+
+				until not flying
+				CONTROL = {F = 0, B = 0, L = 0, R = 0}
+				lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+				SPEED = 0
+				BG:destroy()
+				BV:destroy()
+				plr.Character.Humanoid.PlatformStand = false
+		
+		end)
+	end
+	
+	Mouse.KeyDown:connect(function(KEY)
+	    
+		if KEY:lower() == 'w' then
+			CONTROL.F = speedfly
+		elseif KEY:lower() == 's' then
+			CONTROL.B = -speedfly
+		elseif KEY:lower() == 'a' then
+			CONTROL.L = -speedfly 
+		elseif KEY:lower() == 'd' then 
+			CONTROL.R = speedfly
+		end
+	end)
+	Mouse.KeyUp:connect(function(KEY)
+		if KEY:lower() == 'w' then
+			CONTROL.F = 0
+		elseif KEY:lower() == 's' then
+			CONTROL.B = 0
+		elseif KEY:lower() == 'a' then
+			CONTROL.L = 0
+		elseif KEY:lower() == 'd' then
+			CONTROL.R = 0
+		end
+	end)
 
 local function slider(name,max)
 local Frame = Instance.new("Frame")
@@ -724,7 +793,7 @@ TextLabel.Size = UDim2.new(1, -10, 0, 5)
 bar.Name = "Bar"
 bar.Parent = Frame
 bar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-if name == "FlySpeed" then TextLabel.Text = "FlySpeed: 20"
+if name == "FlySpeed" then TextLabel.Text = "FlySpeed: 100"
 
 local Toggle = Instance.new("ImageButton")  
 local UICorner2 = Instance.new("UICorner")
@@ -752,8 +821,10 @@ Toggle.MouseButton1Down:Connect(function()
     local TweenService = game.TweenService 
     if Toggle1.Position == UDim2.new(0, 0, .5, 0) then
        Toggle1:TweenPosition(UDim2.new(1, -15, .5, 0),"InOut","Sine",.2) 
+       fly()
         local Tween = TweenService:Create(Toggle,TweenInfo.new(.3),{BackgroundColor3 = Color3.fromRGB(0, 255, 0)}):Play()
        else
+           flying = false
         Toggle1:TweenPosition(UDim2.new(0, 0, .5, 0),"InOut","Sine",.2)
          local Tween = TweenService:Create(Toggle,TweenInfo.new(.3),{BackgroundColor3 = Color3.fromRGB(55, 55, 55)}):Play()
         end
@@ -805,7 +876,8 @@ knob.Image = "rbxassetid://319860955"
 		        else
 		        ws = tonumber(math.floor(value))
 		        end
-	
+	         else
+	             speedfly = tonumber (math.floor(value)/10)
 		   end
            end
 	
@@ -859,12 +931,15 @@ end)
 slider("JumpPower",1000)
 slider("WalkSpeed",1000)
 slider("FlySpeed",1000)
+
+
 player.CharacterAdded:Connect(function(newchar)
- 
-    hum = newchar:WaitForChild("Humanoid")
-    wait()
+    local hum = newchar:FindFirstChild("Humanoid",true) or newchar:WaitForChild("Humanoid",10)
+    local hrp = newchar:FindFirstChild("HumanoidRootPart",true) or newchar:WaitForChild("HumanoidRootPart",10)
     hum.WalkSpeed = ws
     hum.JumpPower = jp
+    if flying then fly()
+	 end
     end)
 
 end)
